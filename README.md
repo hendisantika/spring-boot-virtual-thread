@@ -21,3 +21,15 @@ Simply put, more users can use the application and get their response simultaneo
 2. Navigate to the folder: `cd spring-boot-virtual-thread`
 3. Change your DB credentials in `application.properties` file
 4. Run the application: `mvn clean spring-boot:run`
+
+JMeter Config
+
+![JMeter Config](img/config.png)
+
+Normal Thread
+
+![Normal Thread](img/normal.png "Normal Thread")
+
+Virtual Thread
+
+![Virtual Thread](img/virtual.png "Virtual Thread)
