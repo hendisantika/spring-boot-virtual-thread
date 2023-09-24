@@ -32,4 +32,4 @@ Normal Thread
 
 Virtual Thread
 
-![Virtual Thread](img/virtual.png "Virtual Thread)
+![Virtual Thread](img/virtual.png "Virtual Thread")
