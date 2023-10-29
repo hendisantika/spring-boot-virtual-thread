@@ -33,3 +33,5 @@ Normal Thread
 Virtual Thread
 
 ![Virtual Thread](img/virtual.png "Virtual Thread")
+
+Link: https://qaprovider.com/discussion/show/how-to-run-jmeter-from-command-line-non-gui-mode/40
