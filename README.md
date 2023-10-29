@@ -24,6 +24,8 @@ Simply put, more users can use the application and get their response simultaneo
 
 JMeter Config
 
+Run JMeter CLI: `jmeter -n -t Thread\ Group.jmx -l -e -o report/report.csv `
+
 ![JMeter Config](img/config.png)
 
 Normal Thread
@@ -35,3 +37,8 @@ Virtual Thread
 ![Virtual Thread](img/virtual.png "Virtual Thread")
 
 Link: https://qaprovider.com/discussion/show/how-to-run-jmeter-from-command-line-non-gui-mode/40
+
+Run Performance Testing with k6:
+
+1. Install k6 [here](https://k6.io/docs/get-started/installation/)
+2. Run test script `k6 --duration '200s' --vus 1000 run k6.js`
