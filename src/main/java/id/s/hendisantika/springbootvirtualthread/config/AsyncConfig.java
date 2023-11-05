@@ -1,5 +1,6 @@
 package id.s.hendisantika.springbootvirtualthread.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration;
 import org.springframework.boot.web.embedded.tomcat.TomcatProtocolHandlerCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ import java.util.concurrent.Executors;
  */
 @Configuration
 @EnableAsync
+@Slf4j
 public class AsyncConfig {
 
     @Bean(TaskExecutionAutoConfiguration.APPLICATION_TASK_EXECUTOR_BEAN_NAME)
@@ -34,8 +36,8 @@ public class AsyncConfig {
     @Bean
     public TomcatProtocolHandlerCustomizer<?> protocolHandlerVirtualThreadExecutorCustomizer() {
         return protocolHandler -> {
-            //TODO: Enable in Java 20
-            //protocolHandler.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
+            log.info("Configuring " + protocolHandler + " to use VirtualThreadPerTaskExecutor");
+            protocolHandler.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
         };
     }
 }
