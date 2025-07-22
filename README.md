@@ -38,7 +38,55 @@ Virtual Thread
 
 Link: https://qaprovider.com/discussion/show/how-to-run-jmeter-from-command-line-non-gui-mode/40
 
-Run Performance Testing with k6:
+## Run Performance Testing with k6
+
+The project includes a comprehensive k6 script (`k6.js`) for load testing the API endpoints. This script tests all three
+endpoints:
+
+1. `GET /` - Home endpoint
+2. `GET /thread` - Thread endpoint that returns all products with a 1-second delay
+3. `POST /save` - Endpoint that creates 1000 random products
+
+### Load Testing Configuration
+
+The script uses the following configuration:
+
+- **Stages**:
+  - Ramp up to 20 virtual users over 30 seconds
+  - Stay at 20 virtual users for 1 minute
+  - Ramp down to 0 virtual users over 30 seconds
+
+- **Thresholds**:
+  - 95% of requests should complete within 2 seconds
+  - 95% of requests should be successful
+  - Less than 5% of requests should fail
+
+### Custom Metrics
+
+The script collects the following custom metrics:
+
+- Success rate
+- Error rate
+- Response time for each endpoint
+
+### How to Run
 
 1. Install k6 [here](https://k6.io/docs/get-started/installation/)
-2. Run test script `k6 --duration '200s' --vus 1000 run k6.js`
+2. Make sure your Spring Boot application is running on port 8080 (or update the `BASE_URL` in k6.js)
+3. Run the test script:
+   ```
+   k6 run k6.js
+   k6 --duration '200s' --vus 1000 run k6.js
+   ```
+
+### Interpreting Results
+
+After running the test, k6 will output detailed statistics including:
+
+- HTTP request metrics (total requests, rate, duration)
+- Custom metrics (success rate, error rate, response times)
+- Checks (validation of responses)
+- Thresholds (whether performance targets were met)
+
+You can compare these results with the JMeter results to see the performance differences between normal threads and
+virtual threads.
