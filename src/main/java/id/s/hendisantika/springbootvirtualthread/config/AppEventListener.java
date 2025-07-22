@@ -18,9 +18,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class AppEventListener {
-    @EventListener
     @Async
+    @EventListener
     public void onGreetingEvent(String message) {
-        log.info(Thread.currentThread() + " :: Received: {}", message);
+        log.info("{} :: Received: {}", Thread.currentThread(), message);
     }
 }
