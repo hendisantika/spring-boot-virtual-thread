@@ -4,13 +4,21 @@ spring:
     maxIdle: 1
     timeBetweenEvictionRunsMillis: 60000
     hikari:
-      connection-timeout: 60000
-      maximum-pool-size: 10
-      minimum-idle: 5
-    url: jdbc:mysql://localhost:3306/todos?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&useSSL=false&allowPublicKeyRetrieval=true
+      connection-timeout: 60000   # 60 seconds
+      maximum-pool-size: 50       # More reasonable pool size
+      minimum-idle: 10            # Higher minimum idle
+      idle-timeout: 120000        # 2 minutes
+      pool-name: VT-Pool
+      max-lifetime: 1200000       # 20 minutes
+      auto-commit: true
+      connection-test-query: "SELECT 1"
+      validation-timeout: 3000     # 3 seconds
+      leak-detection-threshold: 30000  # 30 seconds
+      register-mbeans: true     # Enable JMX monitoring
+    url: jdbc:mysql://localhost:3308/todos?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&useSSL=false&allowPublicKeyRetrieval=true
     testWhileIdle: true
-    username: root
-    password: root
+    username: yu71
+    password: 53cret
     validationQuery: SELECT 1
   flyway:
     baseline-version: 0
@@ -26,4 +34,14 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+        jdbc:
+          batch_size: 50
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+        connection:
+          provider_disables_autocommit: false
+      open-in-view: false  # Disable OSIV to prevent connection leaks
+
+
 
