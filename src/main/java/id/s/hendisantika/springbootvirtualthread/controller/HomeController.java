@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,19 +38,11 @@ public class HomeController {
         return homeService.getResponse();
     }
 
-    @Transactional(readOnly = true)
     @GetMapping("/thread")
-    public List<Product> checkThread() {
-        // Using CompletableFuture for async operation instead of Thread.sleep
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                Thread.sleep(1000);
-                return productRepository.findAll();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException(e);
-            }
-        }).join();
+    public List<Product> checkThread() throws InterruptedException {
+        // Sleep first, then query - don't hold transaction during sleep
+        Thread.sleep(1000);
+        return productRepository.findAll();
     }
 
     @GetMapping("/thread2")
