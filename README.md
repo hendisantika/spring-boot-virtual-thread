@@ -24,7 +24,7 @@ Simply put, more users can use the application and get their response simultaneo
 
 JMeter Config
 
-Run JMeter CLI: `jmeter -n -t Thread_Group.jmx -l -e -o report/report.csv `
+Run JMeter CLI: `jmeter -n -t Thread_Group.jmx -l -e -o report/report.csv`
 
 ![JMeter Config](img/config.png)
 
