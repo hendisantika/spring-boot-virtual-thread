@@ -19,17 +19,9 @@ public class SpringBootVirtualThreadApplication implements CommandLineRunner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringBootVirtualThreadApplication.class);
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(SpringBootVirtualThreadApplication.class, args);
     }
-
-//    @Bean
-//    public TomcatProtocolHandlerCustomizer<?> protocolHandlerVirtualThreadExecutorCustomizer() {
-//        return protocolHandler -> {
-//            LOGGER.info("Configuring " + protocolHandler + " to use VirtualThreadPerTaskExecutor");
-//            protocolHandler.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
-//        };
-//    }
 
     private final ApplicationEventPublisher publisher;
 
