@@ -1,5 +1,26 @@
 # spring-boot-virtual-thread
 
+[![Java CI with Maven](https://github.com/hendisantika/spring-boot-virtual-thread/actions/workflows/maven.yml/badge.svg)](https://github.com/hendisantika/spring-boot-virtual-thread/actions/workflows/maven.yml)
+![Java](https://img.shields.io/badge/Java-25-orange?logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.2-brightgreen?logo=springboot)
+![MySQL](https://img.shields.io/badge/MySQL-9.3-blue?logo=mysql)
+
+Demo of Java virtual threads (Project Loom) in a Spring Boot REST API: Tomcat request handling and `@Async` tasks both
+run on `Executors.newVirtualThreadPerTaskExecutor()` (see `config/AsyncConfig.java`).
+
+## Tech Stack
+
+- Java 25 (Temurin)
+- Spring Boot 4.1.2 (Web, Data JPA, Docker Compose support)
+- MySQL 9.3
+- Maven 3.10 (via Maven Wrapper)
+- JMeter & k6 for load testing
+
+## Prerequisites
+
+- JDK 25
+- Docker (MySQL is started automatically from `compose.yaml` by `spring-boot-docker-compose`)
+
 ### Things todo list
 
 Now let’s setup our JMeter. We will have 1000 requests, which will ramp up in 3 seconds. And it will continue like this
@@ -17,10 +38,13 @@ maintain and even harder to debug.
 
 Simply put, more users can use the application and get their response simultaneously as the first user.
 
-1. Clone this repository: `cd https://github.com/hendisantika/spring-boot-virtual-thread.git`
+## How to Run
+
+1. Clone this repository: `git clone https://github.com/hendisantika/spring-boot-virtual-thread.git`
 2. Navigate to the folder: `cd spring-boot-virtual-thread`
-3. Change your DB credentials in `application.properties` file
-4. Run the application: `mvn clean spring-boot:run`
+3. (Optional) Change your DB credentials in `src/main/resources/application.yml` and `compose.yaml`
+4. Run the application: `./mvnw clean spring-boot:run` (MySQL container is started automatically)
+5. Build & run tests: `./mvnw verify` (tests expect MySQL on `localhost:3308` with database `todos`, same as the CI service container)
 
 JMeter Config
 
@@ -90,3 +114,12 @@ After running the test, k6 will output detailed statistics including:
 
 You can compare these results with the JMeter results to see the performance differences between normal threads and
 virtual threads.
+
+## CI/CD & Dependency Updates
+
+- **GitHub Actions** (`.github/workflows/maven.yml`): builds and tests on every push/PR to `main` using JDK 25 with a
+  MySQL 9.3 service container, then submits the Maven dependency graph on `main` for better Dependabot alerts.
+- **Dependabot** (`.github/dependabot.yml`):
+  - Maven: daily, grouped (Spring Boot / minor & patch), 3-day cooldown, `build(deps)` commit prefix
+  - GitHub Actions: weekly, single grouped PR, `ci(deps)` commit prefix
+  - Docker Compose: weekly updates for the MySQL image in `compose.yaml`
